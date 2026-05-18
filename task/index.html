@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Theory to Practice</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="favicon.ico" rel="icon">
+    <link href="libs/css/style.css" rel="stylesheet">
+
+</head>
+<body>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>API Name</th>
+                <th>API Description</th>
+                <th>Buttons</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr>
+                <td>1. Weather</td>
+                <td>
+                    <p>This API provides information about the current weather based on the location provide by the users input</p>
+                    <p class="lat">Latitude</p><input type="text" id="lat" placeholder="Latitude">
+                    <p class="lng">Longitude</p><input type="text" id="lng" placeholder="Longitude">
+                    <p class="lang">Language</p><select id="lang">
+                        <option value="en">English</option>
+                        <option value="kr">Korean</option>
+                        <option value="fr">French</option>
+                        <option value="md">Mandarin</option>
+                    </select>
+                </td>
+                <td><button id="btnOne">Submit</button></td>
+            </tr>
+
+            <tr>
+                <td>2. Wikipedia Search</td>
+                <td>
+                    <p>This API provides search results for wikipedia based on the user's inputs.</p>
+                    <p class="search">What is your Query?</p><input type="text" id="search" placeholder="Search Wikipedia">
+                </td>
+                <td><button id="btnTwo">Submit</button></td>
+            </tr>
+
+            <tr>
+                <td>3. Timezone</td>
+                <td>
+                    <p>This API provides information about the timezone once the longitude and latitude have been provided.</p>
+                    <p class="lat">Latitude</p><input type="text" id="lat" placeholder="Latitude">
+                    <p class="lng">Longitude</p><input type="text" id="lng" placeholder="Longitude">
+                </td>
+                <td><button id="btnThree">Submit</button></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="results-box">
+        <h2>Results</h2>
+    </div>
+
+    <div id="preloader"></div>
+
+    <script type="application/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="application/javascript" src="libs/js/script.js"></script>
+
+</body>
+</html>
