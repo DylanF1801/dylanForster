@@ -1,11 +1,11 @@
 <?php
 
-    ini_set('display_errors', 'ON');
+    ini_set('display_errors', 'On');
     error_reporting(E_ALL);
 
     $executionStartTime = microtime(true);
 
-    $url='https://api.geonames.org/weatherJSON?lang=' . $_REQUEST['lang'] . '&lat=' . $_REQUEST['lat'] . '&lng=' . $_REQUEST['lng'] . '&username=dylanf';
+    $url='http://api.geonames.org/weatherJSON?formatted=true&north=' . $_REQUEST['north'] . '&south=' . $_REQUEST['south'] . '&east=' . $_REQUEST['east'] . '&west=' . $_REQUEST['west'] . '&username=dylanf';
 
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
@@ -22,7 +22,7 @@
     $output['status']['name'] = "ok";
     $output['status']['description'] = "success";
     $output['status']['returnedIn'] = intval((microtime(true) - $executionStartTime) * 1000) . " ms";
-    $output['weatherObservation'] = $decode['geonames'][0];
+    $output['data'] = $decode['weatherObservations'];
 
     header('Content-Type: application/json; charset=UTF-8');
     echo json_encode($output);
