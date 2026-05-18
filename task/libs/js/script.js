@@ -4,10 +4,10 @@ $('#btnOne').click(function() {
         type: 'POST',
         dataType: 'json',
         data: {
-            north: $('.north').val(),
-            south: $('.south').val(),
-            east: $('.east').val(),
-            west: $('.west').val()
+            north: $('#north').val(),
+            south: $('#south').val(),
+            east: $('#east').val(),
+            west: $('#west').val()
         },
         success: function(result) {
 
@@ -39,7 +39,7 @@ $('#btnTwo').click(function() {
             console.log(JSON.stringify(result));
 
             if(result.status.name == "ok") {
-                $('#txtA').html('<h2>Results</h2><p>Title: ' + result.data[0].title + '</p><p>Description: ' + result.data[0].description + '</p>');
+                $('#txtA').html('<p>Title: ' + result.data[0].title + '</p><p>Description: ' + result.data[0].description + '</p>');
             }
         },
         error: function(jqXHR, textStatus, errorThrown) {
@@ -54,15 +54,15 @@ $('#btnThree').click(function() {
         type: 'POST',
         dataType: 'json',
         data: {
-            lat: $('.lat').val(),
-            lng: $('.lng').val()
+            lat: $('#lat').val(),
+            lng: $('#lng').val()
         },
         success: function(result) {
 
             console.log(JSON.stringify(result));
         
             if(result.status.name == "ok") {
-                    $('#txtA').html('<h2>Results</h2><p>Timezone: ' + result.data.timezoneId + '</p>');
+                    $('#txtA').html('<p>Timezone: ' + result.data.timezoneId + '</p>');
             }
         },
         error: function(jqXHR, textStatus, errorThrown) {
