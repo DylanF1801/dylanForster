@@ -39,7 +39,7 @@ $('#btnTwo').click(function() {
             console.log(JSON.stringify(result));
 
             if(result.status.name == "ok") {
-                $('#txtA').html('<p>Title: ' + result.data[0].title + '</p><p>Description: ' + result.data[0].description + '</p>');
+                $('#txtA').html('<p>Title: ' + result.data[0].title + '</p><p>Summary: ' + result.data[0].summary + '</p>');
             }
         },
         error: function(jqXHR, textStatus, errorThrown) {
