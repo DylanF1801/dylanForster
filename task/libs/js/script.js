@@ -39,7 +39,7 @@ $('#btnTwo').click(function() {
             console.log(JSON.stringify(result));
 
             if(result.status.name == "ok") {
-                $('#txtA').html('<p>Title: ' + result.data[0].title + '</p><p>Summary: ' + result.data[0].summary + '</p>');
+                $('#txtA').html('<p>Title: ' + result.data[0].title + '</p><p>Summary: ' + result.data[0].summary + '</p>' + '<br/>' + "You can find the article here: " + result.data[0].wikipediaUrl);
             }
         },
         error: function(jqXHR, textStatus, errorThrown) {

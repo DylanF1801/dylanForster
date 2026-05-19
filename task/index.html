@@ -5,7 +5,6 @@
     <title>Theory to Practice</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link href="favicon.ico" rel="icon">
     <link href="libs/css/style.css" rel="stylesheet">
 
 </head>
@@ -24,7 +23,8 @@
             <tr>
                 <td>1. Weather</td>
                 <td>
-                    <p>This API provides information about the current weather based on the location provide by the users input</p>
+                    <p>This API returns the weather station and the most recent weather observations based on the user's input.</p>
+                    <p>A good example would be N: 44.1, S: -9.9, E: -22.4, W: 55.2</p>
                     <p>
                         <input type="number" id="north" placeholder="North">
                         <input type="number" id="south" placeholder="South">
@@ -39,7 +39,7 @@
                 <td>2. Wikipedia Search</td>
                 <td>
                     <p>This API provides search results for wikipedia based on the user's inputs.</p>
-                    <p>What is your Query?</p><input type="text" id="search" placeholder="Search Wikipedia">
+                    <p>What is your Query? e.g. A fun example would be Egg</p><input type="text" id="search" placeholder="Search Wikipedia">
                 </td>
                 <td><button id="btnTwo">Submit</button></td>
             </tr>
@@ -47,7 +47,8 @@
             <tr>
                 <td>3. Timezone</td>
                 <td>
-                    <p>This API provides information about the timezone once the longitude and latitude have been provided.</p>
+                    <p>This API provides the timezone of the inputted location.</p>
+                    <p>An example of this would be Lat: 52.4814, long: -1.8998</p>
                     <p>Latitude:</p><input type="text" id="lat" placeholder="Latitude">
                     <p>Longitude:</p><input type="text" id="lng" placeholder="Longitude">
                 </td>
