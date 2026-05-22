@@ -46,4 +46,25 @@ $(document).ready(function () {
 
   infoBtn.addTo(map);
 
-})
+});
+
+$("#countrySelect").click(function () {
+    $.ajax({
+      url: "../libs/php/getCountry.php",
+      type: "POST",
+      dataType: "json",
+      data: {
+        name: $("#countrySelect").val(),
+        iso_a2: $("#countrySelect").val()
+      },
+      success: function (result) {
+        console.log(JSON.stringify(result));
+        if (result.status.name == "ok") {
+          $('#country').html('<option value="' + result.data[0].iso_a2 + '">' + result.data[0].name + '</option>');
+        }
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        console.log("Error: " + textStatus + " : " + errorThrown);
+      }
+    });
+  });
