@@ -48,23 +48,21 @@ $(document).ready(function () {
 
 });
 
+// AJAX request to get country data
 $("#countrySelect").click(function () {
-    $.ajax({
-      url: "../libs/php/getCountry.php",
-      type: "POST",
-      dataType: "json",
-      data: {
-        name: $("#countrySelect").val(),
-        iso_a2: $("#countrySelect").val()
-      },
-      success: function (result) {
-        console.log(JSON.stringify(result));
-        if (result.status.name == "ok") {
-          $('#country').html('<option value="' + result.data[0].iso_a2 + '">' + result.data[0].name + '</option>');
-        }
-      },
-      error: function (jqXHR, textStatus, errorThrown) {
-        console.log("Error: " + textStatus + " : " + errorThrown);
-      }
-    });
+  $.ajax({
+    url: '../libs/php/getCountry.php', 
+    type: 'POST',
+    dataType: 'json',
+    success: function(data) {
+      console.log(data); // Logs the data received from the server to the console
+
+      let dropDown = $('#countrySelect'); //Variable created for the dropdown box
+      dropDown.empty(); //Prevents duplicate entries in the dropdown box
+
+      data.forEach(country => { //Loops through each country in the data received.
+        dropDown.append(`<option value="${country.iso_a2}">${country.name}</option>`);
+      }); //Appends the country name and iso code to the dropdown box
+    }
   });
+});
