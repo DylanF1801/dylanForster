@@ -23,7 +23,7 @@ var basemaps = {
 
 // buttons
 
-var infoBtn = L.easyButton("fa-info fa-xl", function (btn, map) {
+var infoBtn = L.easyButton("fa-circle-info fa-xl", function (btn, map) {
   $("#exampleModal").modal("show");
 });
 
@@ -54,13 +54,13 @@ $("#countrySelect").click(function () {
     url: '../libs/php/getCountry.php', 
     type: 'POST',
     dataType: 'json',
-    success: function(data) {
-      console.log(data); // Logs the data received from the server to the console
+    success: function(response) {
+      console.log(response); // Logs the data received from the server to the console
 
       let dropDown = $('#countrySelect'); //Variable created for the dropdown box
       dropDown.empty(); //Prevents duplicate entries in the dropdown box
 
-      data.forEach(country => { //Loops through each country in the data received.
+      response.data.forEach(country => { //Loops through each country in the data received.
         dropDown.append(`<option value="${country.iso_a2}">${country.name}</option>`);
       }); //Appends the country name and iso code to the dropdown box
     }
