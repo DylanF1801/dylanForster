@@ -33,6 +33,22 @@ var infoBtn = L.easyButton('<i class="fa-solid fa-circle-info fa-xl"></i>', func
   $("#countryInfoModal").modal("show");
 });
 
+var weatherBtn = L.easyButton('<i class="fa-solid fa-cloud-sun fa-xl"></i>', function (btn, map) {
+  $("#weatherModal").modal("show");
+});
+
+var currencyBtn = L.easyButton('<i class="fa-solid fa-coins fa-xl"></i>', function (btn, map) {
+  $("#currencyModal").modal("show");
+});
+
+var markerBtn = L.easyButton('<i class="fa-solid fa-map-marker-alt fa-xl"></i>', function (btn, map) {
+  $("#markerModal").modal("show");
+});
+
+var newsBtn = L.easyButton('<i class="fa-solid fa-newspaper fa-xl"></i>', function (btn, map) {
+  $("#newsModal").modal("show");
+});
+
 // ---------------------------------------------------------
 // EVENT HANDLERS
 // ---------------------------------------------------------
@@ -50,20 +66,22 @@ $(document).ready(function () {
         var lat = position.coords.latitude;
         var lng = position.coords.longitude; // Get the user's latitude and longitude
         map.setView([lat, lng], 10); // Set the map view to the user's location with a zoom level of 10
-      }, function(error) {
-        console.error("Error getting user location:", error);
       });
     } else {
       console.log("Geolocation is not available in this browser.");
-    }
+    };
 
   // setView is not required in your application as you will be
   // deploying map.fitBounds() on the country border polygon
+  
 
   layerControl = L.control.layers(basemaps).addTo(map);
 
   infoBtn.addTo(map);
-
+  weatherBtn.addTo(map);
+  currencyBtn.addTo(map);
+  markerBtn.addTo(map);
+  newsBtn.addTo(map);
 });
 
 // AJAX request to get country data
@@ -89,3 +107,5 @@ $("#countrySelect").click(function () {
     }
   });
 });
+
+
