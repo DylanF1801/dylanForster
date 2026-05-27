@@ -15,7 +15,8 @@
     foreach($data['features'] as $feature) {
         $countries[] = [ // Adding country data to the countries array
             'name' => $feature['properties']['name'], //Adding the country name to the array
-            'iso_a2' => $feature['properties']['iso_a2'] //Adding the country iso_a2 code to the array
+            'iso_a2' => $feature['properties']['iso_a2'], //Adding the country iso_a2 code to the array
+            'geometry' => $feature['geometry'], //Adding the country geometry to the array
         ];
     }
 

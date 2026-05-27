@@ -1,27 +1,38 @@
 <?php
 
+    header('Content-Type: application/json');
+
     $executionStartTime = microtime(true);
+
+    $lat = $_GET['lat'] ?? null;
+    $lng = $_GET['lng'] ?? null; // Get lat and lng parameters from the URL, if they exist
 
     $json = file_get_contents($path);
     $data = json_decode($json, true);
 
-    if(!isset($_GET['lat']) || !isset($_GET['lng'])) { // Check if lat and lng parameters are set
-        die(json_encode(["status" => ["code" => "400", "description" => "Missing parameters"]])); //If parameters aren't set, return a 400 error
-    }
+    $response = file_get_contents($url);
+    $data = json_decode($response, true);
 
     $apiKey = "240ca991abaa4e50b57024ed747d71e7";
     $url = "https://api.opencagedata.com/geocode/v1/json?q=$lat+$lng&key=$apiKey";
 
-    $response = file_get_contents($url);
-    $data = json_decode($response, true);
 
+    $components = $data['results'][0]['components']; // Get the components from the first result
+    $geometry = $data['results'][0]['geometry']; // Get the geometry from the first result
+    $bounds = $data['results'][0]['bounds']; // Get the bounds from the first result
 
+    echo json_encode([
+        "status" => ["code" => "200", "description" => "OK"],
+        "data" => [
+            "iso_a2" => $components['ISO_3166-1_alpha-2'] ?? null,
+            "country" => $components['country'] ?? null,
+            "borders" => [
+                [$bounds['southwest']['lat'], $bounds['southwest']['lng']],
+                [$bounds['northeast']['lat'], $bounds['northeast']['lng']]
+            ]
+        ]
+    ]);
 
-    $lat = $_GET['lat']; // Get the latitude from the GET parameters
-    $lng = $_GET['lng']; // Get the longitude from the GET parameters
-
-
-    header('Content-Type: application/json');
     $response = file_get_contents($url);
     echo $response;
 ?>

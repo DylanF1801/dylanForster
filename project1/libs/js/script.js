@@ -21,6 +21,7 @@ var basemaps = {
   "Satellite": satellite
 };
 
+
 /*document.querySelectorAll('.modal').forEach((modal) => {
   modal.addEventListener('hide.bs.modal', () => {
     document.activeElement.blur();
@@ -100,12 +101,22 @@ $("#countrySelect").click(function () {
         response.data.forEach(country => { // Loop through each country in the data array
           dropDown.append(`<option value="${country.iso_a2}">${country.name}</option>`); // Append an option element to the dropdown for each country, using the ISO code as the value and the country name as the display text
         });
-      }
-    },
+
+        // Return borders of the selected country to the map
+        $("#countrySelect").change(function () {
+          let selectedCountry = $(this).val(); // Get the value of the selected option in the dropdown
+          let countryData = response.data.find(country => country.iso_a2 === selectedCountry);
+          if(countryData) {
+            let bounds = countryData.geometry.coordinates; // Get the borders of the selected country from the data
+            map.fitBounds(bounds); // Fit the map view to the bounds of the selected country
+          }
+        });
+    }},
     error: function(jqXHR, textStatus, errorThrown) {
       console.log("Error: " + textStatus);
     }
   });
 });
+
 
 
