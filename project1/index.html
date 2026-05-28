@@ -257,10 +257,40 @@
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content shadow">
                     <div class="modal-header bg-success bg-gradient text-white">
-                        <h5 class="modal-title">Overview</h5>
+                        <h5 class="modal-title">Weather Stats</h5>
                         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
+                        <table class="table table-striped">
+                            <tr>
+                                <td class="text-left" scope="col">City</td>
+                                <td class="text-end" scope="col" id="cityValue"></td>
+                            </tr>
+                            <tr>
+                                <td class="text-left" scope="col">Temperature</td>
+                                <td class="text-end" scope="col" id="tempValue"></td>
+                            </tr>
+                            <tr>
+                                <td class="text-left" scope="col">Clouds</td>
+                                <td class="text-end" scope="col" id="cloudsValue"></td>
+                            </tr>
+                            <tr>
+                                <td class="text-left" scope="col">Humidity</td>
+                                <td class="text-end" scope="col" id="humidityValue"></td>
+                            </tr>
+                            <tr>
+                                <td class="text-left" scope="col">Wind Speed</td>
+                                <td class="text-end" scope="col" id="windValue"></td>
+                            </tr>
+                            <tr>
+                                <td class="text-left" scope="col">Sunrise</td>
+                                <td class="text-end" scope="col" id="sunriseValue"></td>
+                            </tr>
+                            <tr>
+                                <td class="text-left" scope="col">Sunset</td>
+                                <td class="text-end" scope="col" id="sunsetValue"></td>
+                            </tr>
+                        </table>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-outline-success btn-sm" data-bs-dismiss="modal">Close</button>
