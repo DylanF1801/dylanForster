@@ -27,8 +27,8 @@
             "iso_a2" => $components['ISO_3166-1_alpha-2'] ?? null,
             "country" => $components['country'] ?? null,
             "borders" => [
-                [$bounds['southwest']['lat'], $bounds['southwest']['lng']],
-                [$bounds['northeast']['lat'], $bounds['northeast']['lng']]
+                [$bounds['southwest']['lat'], $bounds['southwest']['lng']], // Southwest corner of the bounds
+                [$bounds['northeast']['lat'], $bounds['northeast']['lng']] // Northeast corner of the bounds
             ]
         ]
     ]);
