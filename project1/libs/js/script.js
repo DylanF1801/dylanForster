@@ -116,7 +116,30 @@ $(document).ready(function () {
               map.fitBounds(borderLayer.getBounds()); // Fit the map view to the bounds of the new border layer
             }
           });
-      }},
+
+      // OpenWeather API
+
+      $.ajax({
+        url: '../libs/php/getWeather.php',
+        type: 'GET',
+        dataType: 'json',
+        success: function(weatherResponse) {
+          if (weatherResponse.status.code === "200") {
+            let selectedCountry = $('#countrySelect').val(); // Get the value of the selected option in the dropdown
+
+            let countryWeatherData = weatherResponse.data[selectedCountry]; // Get the weather data for the selected country
+        
+            if (countryWeatherData) {
+              $('weatherTable').empty(); // Clear any existing weather data in the table
+
+              //Adding weather data to the table through the id of the td elements in the modal
+              $('#tempValue').text(countryWeatherData.data.temperature + ' °C');
+              $('#humidityValue').text(countryWeatherData.data.humidity + ' %');
+              $('#windValue').text(countryWeatherData.data.windSpeed + ' m/s');
+            }
+        }}
+      });
+    }},
       error: function(jqXHR, textStatus, errorThrown) {
         console.log("Error: " + textStatus);
       }

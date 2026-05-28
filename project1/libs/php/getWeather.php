@@ -1,11 +1,16 @@
 <?php
     header("Content-Type: application/json; charset=UTF-8");
 
+    ini_set('display_errors', 1);
+    error_reporting(E_ALL);
+
     $city = $_GET['city'] ?? null;
     $country = $_GET['country'] ?? null;
+    $lat = $_GET['lat'] ?? null;
+    $lon = $_GET['lon'] ?? null;
 
     $apiKey = '6d85eed68668307d947df0ebdfaa5833';
-    $url = "https://api.openweathermap.org/data/4.0/onecall/current?lat={lat}&lon={lon}&appid=$apiKey";
+    $url = "https://api.openweathermap.org/data/4.0/onecall/current?lat=$lat&lon=$lon&appid=$apiKey";
 
     $val = json_decode(file_get_contents($url), true);
 
