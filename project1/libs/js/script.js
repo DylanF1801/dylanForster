@@ -3,6 +3,8 @@
 // ---------------------------------------------------------
 
 var map;
+var currentLat = null;
+var currentLon = null;
 
 // tile layers
 
@@ -82,67 +84,76 @@ $(document).ready(function () {
 
   // AJAX request to get country data
   $("#countrySelect").click(function () {
-    $.ajax({
-      url: '../libs/php/getCountry.php', 
-      type: 'GET',
-      dataType: 'json',
-        success: function(response) {
-        if (response.status.code === "200") {
-          let dropDown = $('#countrySelect'); // Select the dropdown element by its ID
-          dropDown.empty(); // Clear any existing options in the dropdown
-          dropDown.append('<option value="" disabled selected>Select a Country</option>'); // Append a default option to prompt the user to select a country
 
-          // Access the 'data' property of the response
-          response.data.forEach(country => { // Loop through each country in the data array
-            dropDown.append(`<option value="${country.iso_a2}">${country.name}</option>`); // Append an option element to the dropdown for each country, using the ISO code as the value and the country name as the display text
-          });
-
-          // Return borders of the selected country to the map
-          $("#countrySelect").change(function () {
-            let selectedCountry = $(this).val(); // Get the value of the selected option in the dropdown
-            let countryData = response.data.find(country => country.iso_a2 === selectedCountry);
-            if(countryData) {
-              if (borderLayer) {
-                map.removeLayer(borderLayer); // Remove the existing border layer from the map if it exists
-              }
-              borderLayer = L.geoJSON(countryData.geometry, {
-                style: {
-                  color: 'red', // Set the border color to green
-                  weight: 3, // Set the border weight to 3
-                  fillColor: 'red', // Set the fill color to green
-                  fillOpacity: 0.2 // Set the fill opacity to 0.2 for a semi-transparent effect
-                }
-              }).addTo(map); // Create a new GeoJSON layer with the selected country's geometry and add it to the map
-              map.fitBounds(borderLayer.getBounds()); // Fit the map view to the bounds of the new border layer
-            }
-          });
-
-      // OpenWeather API
+    function getWeather(lat, lng) {
+      if(!lat || !lon) {
+        console.log("Weather request failed");
+        return;
+      }
+      
+      console.log("Weather coordinares:", lat, lng);
 
       $.ajax({
         url: '../libs/php/getWeather.php',
         type: 'GET',
         dataType: 'json',
-        success: function(weatherResponse) {
-          if (weatherResponse.status.code === "200") {
-            let selectedCountry = $('#countrySelect').val(); // Get the value of the selected option in the dropdown
+        data: { lat: lat, lon: lon},
+        success: function(Response) {
+          if(Response.status && Response.status.code === '200' && Response.data) {
+            $('#tempValue').text(Response.data.temperature + ' °C');
+            $('#humidityValue').text(Response.data.humidity + ' %');
+            $('#windValue').text(Response.data.windSpeed + ' m/s');
+          } else {
+            console.log('API error: ', Response.status  ?Response.status.description : Response);
+          }
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+          console.log('Error has occured: ', textStatus, errorThrown);
+        }
+      })
+    }
 
-            let countryWeatherData = weatherResponse.data[selectedCountry]; // Get the weather data for the selected country
-        
-            if (countryWeatherData) {
-              $('weatherTable').empty(); // Clear any existing weather data in the table
+    $.ajax({
+      url: '../libs/php/getCountry.php', 
+      type: 'GET',
+      dataType: 'json',
+        success: function(response) {
+          if (response.status.code === "200") {
+            let dropDown = $('#countrySelect'); // Select the dropdown element by its ID
+            dropDown.empty(); // Clear any existing options in the dropdown
+            dropDown.append('<option value="" disabled selected>Select a Country</option>'); // Append a default option to prompt the user to select a country
 
-              //Adding weather data to the table through the id of the td elements in the modal
-              $('#tempValue').text(countryWeatherData.data.temperature + ' °C');
-              $('#humidityValue').text(countryWeatherData.data.humidity + ' %');
-              $('#windValue').text(countryWeatherData.data.windSpeed + ' m/s');
-            }
-        }}
-      });
-    }},
+            // Access the 'data' property of the response
+            response.data.forEach(country => { // Loop through each country in the data array
+              dropDown.append(`<option value="${country.iso_a2}">${country.name}</option>`); // Append an option element to the dropdown for each country, using the ISO code as the value and the country name as the display text
+            });
+
+            // Return borders of the selected country to the map
+            $("#countrySelect").change(function () {
+              let selectedCountry = $(this).val(); // Get the value of the selected option in the dropdown
+              let countryData = response.data.find(country => country.iso_a2 === selectedCountry);
+              if(countryData) {
+                if (borderLayer) {
+                  map.removeLayer(borderLayer); // Remove the existing border layer from the map if it exists
+                }
+                borderLayer = L.geoJSON(countryData.geometry, {
+                  style: {
+                    color: 'red', // Set the border color to green
+                    weight: 3, // Set the border weight to 3
+                    fillColor: 'red', // Set the fill color to green
+                    fillOpacity: 0.2 // Set the fill opacity to 0.2 for a semi-transparent effect
+                  }
+                }).addTo(map); // Create a new GeoJSON layer with the selected country's geometry and add it to the map
+                map.fitBounds(borderLayer.getBounds()); // Fit the map view to the bounds of the new border layer
+                
+                const center = borderLayer.getBounds().getCenter();
+                getWeather(center.lat, center.lng)
+              }
+            })
+      }},
       error: function(jqXHR, textStatus, errorThrown) {
-        console.log("Error: " + textStatus);
-      }
+          console.log('Error has occured: ', textStatus, errorThrown);
+        }
     });
   });
 

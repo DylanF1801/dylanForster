@@ -4,34 +4,44 @@
     ini_set('display_errors', 1);
     error_reporting(E_ALL);
 
-    $city = $_GET['city'] ?? null;
-    $country = $_GET['country'] ?? null;
-    $lat = $_GET['lat'] ?? null;
-    $lon = $_GET['lon'] ?? null;
+    $lat = $_GET['lat'] ?? $_POST['lat'] ?? null;
+    $lon = $_GET['lon'] ?? $_POST['lon'] ?? null;
+
+    if (!$lat || !$lon) {
+        echo json_encode([
+            'status' => [
+                'code' => '400',
+                'name' => 'error',
+                'description' => 'Missing latitude or longitude'
+            ],
+            'data' => null
+        ]);
+        exit;
+    }
 
     $apiKey = '6d85eed68668307d947df0ebdfaa5833';
-    $url = "https://api.openweathermap.org/data/4.0/onecall/current?lat=$lat&lon=$lon&appid=$apiKey";
+    $url = "https://api.openweathermap.org/data/2.5/weather?lat={$lat}&lon={$lon}&appid={$apiKey}&units=metric";
 
-    $val = json_decode(file_get_contents($url), true);
+    $weatherJson = @file_get_contents($url);
+    $weatherData = json_decode($weatherJson, true);
 
-    $temp = $val['main']['temp'] ?? null; // Pulls the temperature from the API response
-    $description = $val['weather'][0]['description'] ?? null; // Pulls the weather description from the API response
-    $clouds = $val['clouds']['all'] ?? null; // Pulls the cloudiness percentage from the API response
-    $humidity = $val['main']['humidity'] ?? null; // Pulls the humidity from the API response
-    $windSpeed = $val['wind']['speed'] ?? null; // Pulls the wind speed from the API response
-    $icon = $val['weather'][0]['icon'] ?? null; // Pulls the weather icon code
-    $sunrise = date('H:i:s', $val['sys']['sunrise'] ?? null); // Converts sunrise time to human-readable format
-    $sunset = date('H:i:s', $val['sys']['sunset'] ?? null); // Converts sunset time to human-readable format
     $data = [
-        'temperature' => $temp,
-        'description' => $description,
-        'clouds' => $clouds,
-        'humidity' => $humidity,
-        'windSpeed' => $windSpeed,
-        'icon' => $icon,
-        'sunrise' => $sunrise,
-        'sunset' => $sunset
-    ]; // Array to hold the weather data
+        'temperature' => $weatherData['main']['temp'] ?? null,
+        'description' => $weatherData['weather'][0]['description'] ?? null,
+        'clouds' => $weatherData['clouds']['all'] ?? null,
+        'humidity' => $weatherData['main']['humidity'] ?? null,
+        'windSpeed' => $weatherData['wind']['speed'] ?? null,
+        'icon' => $weatherData['weather'][0]['icon'] ?? null,
+        'sunrise' => isset($weatherData['sys']['sunrise']) ? date('H:i:s', $weatherData['sys']['sunrise']) : null,
+        'sunset' => isset($weatherData['sys']['sunset']) ? date('H:i:s', $weatherData['sys']['sunset']) : null
+    ];
 
-    echo json_encode($data);
+    echo json_encode([
+        'status' => [
+            'code' => '200',
+            'name' => 'ok',
+            'description' => 'Weather data retrieved'
+        ],
+        'data' => $data
+    ]);
 ?>
