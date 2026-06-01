@@ -85,24 +85,27 @@ $(document).ready(function () {
   // AJAX request to get country data
   $("#countrySelect").click(function () {
 
+
     function getWeather(lat, lng) {
-      if(!lat || !lon) {
+      if(!lat || !lng) {
         console.log("Weather request failed");
         return;
       }
-      
-      console.log("Weather coordinares:", lat, lng);
 
       $.ajax({
         url: '../libs/php/getWeather.php',
         type: 'GET',
         dataType: 'json',
-        data: { lat: lat, lon: lon},
+        data: { coord: { lat: lat, lon: lng } },
         success: function(Response) {
           if(Response.status && Response.status.code === '200' && Response.data) {
+            $('#countryValue').text(Response.data.country);
             $('#tempValue').text(Response.data.temperature + ' °C');
+            $('#cloudValue').text(Response.data.clouds + ' %');
             $('#humidityValue').text(Response.data.humidity + ' %');
             $('#windValue').text(Response.data.windSpeed + ' m/s');
+            $('#sunriseValue').text(Response.data.sunrise);
+            $('#sunsetValue').text(Response.data.sunset);
           } else {
             console.log('API error: ', Response.status  ?Response.status.description : Response);
           }
@@ -111,7 +114,7 @@ $(document).ready(function () {
           console.log('Error has occured: ', textStatus, errorThrown);
         }
       })
-    }
+    };
 
     $.ajax({
       url: '../libs/php/getCountry.php', 
@@ -147,6 +150,7 @@ $(document).ready(function () {
                 map.fitBounds(borderLayer.getBounds()); // Fit the map view to the bounds of the new border layer
                 
                 const center = borderLayer.getBounds().getCenter();
+                console.log("Weather coordinates:", center.lat, center.lng);
                 getWeather(center.lat, center.lng)
               }
             })
