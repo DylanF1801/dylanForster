@@ -101,7 +101,7 @@ $(document).ready(function () {
           if(Response.status && Response.status.code === '200' && Response.data) {
             $('#countryValue').text(Response.data.country);
             $('#tempValue').text(Response.data.temperature + ' °C');
-            $('#cloudValue').text(Response.data.clouds + ' %');
+            $('#cloudsValue').text(Response.data.clouds + ' %');
             $('#humidityValue').text(Response.data.humidity + ' %');
             $('#windValue').text(Response.data.windSpeed + ' m/s');
             $('#sunriseValue').text(Response.data.sunrise);
